@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>HelloWorld</title>  <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+
+    <input type="text" class="form-control" id="url" placeholder="Enter your URL here">
+
+
+    <button type="button" onclick="bhai()" class="btn btn-primary">Visit URL</button>
+
+    <p id="viewCounter"></p>
+    <script src="lib/jquery-3.2.1.js"></script>
+    <script>
+
+        function bhai () {
+
+            var temp=document.getElementById("url").value;
+
+            var x = {
+                url: temp
+            };
+
+            var request = $.ajax({
+                url: "/postURL",
+                method: "POST",
+                data: x,
+                cache: false
+            });
+
+
+            request.done(function (data) {
+
+                document.getElementById("viewCounter").innerHTML = data;
+
+        });
+
+
+            request.fail(function (jqXHR, textStatus) {
+            alert
+            ("Request failed: " + textStatus);
+        });
+
+}
+    </script>
+
+
+    <button type="button" onclick="top3()" class="btn btn-danger">top 3  urls!</button>
+
+    <table id="machinetable" style="border: 1px solid black"/>
+
+
+
+    <script src="lib/jquery-3.2.1.js"></script>
+    <script>
+
+        function top3 () {
+
+
+
+
+            var request = $.ajax({
+                url: "/top3Urls",
+                method: "GET",
+                cache: false
+            });
+
+
+            request.done(function (data) {
+
+                var x=[];
+                x=data;
+               for (var  i = 0; i < data.length; i++) {
+                    $("#machinetable").append("<tr><td>" + data[i].url + "</td><td>" + data[i].counter + "</td></tr>");
+                }
+
+            });
+
+
+            request.fail(function (jqXHR, textStatus) {
+                alert
+                ("Request failed: " + textStatus);
+            });
+
+        }
+    </script>
+
+
+    </body>
+</html>
